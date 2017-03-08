@@ -1,6 +1,6 @@
 ##convertor-test
 ###Testing of currency conversion
-####How run?
+####How to run?
 #####Maven version must be 3.1.1 or above
 ```
 1. git clone https://github.com/bazeeff/convertor-test.git
