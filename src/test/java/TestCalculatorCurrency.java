@@ -1,4 +1,3 @@
-
 import com.codeborne.selenide.Condition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,12 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 /**
  * Created by artem on 05.03.17.
+ * Modified by artem on 08.03.17
  */
 @RunWith(Parameterized.class)
 public class TestCalculatorCurrency {
@@ -37,11 +35,28 @@ public class TestCalculatorCurrency {
     private String valueCurrency;
     private String codeCurrency;
     private String codeConversionCurrency;
+    private String pathSourceCode;
+    private String pathDestinationCode;
+    private String pathNote;
     private String inputWidget;
     private String buttonWidget;
     private String resultWidget;
 
-    public TestCalculatorCurrency(String link, String headerWidget, String valueOfHeaderWidget,String pathListCodes, String pathVisibleListCodes,String pathVisibleListCodesToConvert,String valueCurrency, String codeCurrency, String codeConversionCurrency, String inputWidget, String buttonWidget, String resultWidget ){
+    public TestCalculatorCurrency(String link,
+                                  String headerWidget,
+                                  String valueOfHeaderWidget,
+                                  String pathListCodes,
+                                  String pathVisibleListCodes,
+                                  String pathVisibleListCodesToConvert,
+                                  String valueCurrency,
+                                  String codeCurrency,
+                                  String codeConversionCurrency,
+                                  String pathSourceCode,
+                                  String pathDestinationCode,
+                                  String pathNote,
+                                  String inputWidget,
+                                  String buttonWidget,
+                                  String resultWidget ){
         this.link=link;
         this.headerWidget=headerWidget;
         this.valueOfHeaderWidget=valueOfHeaderWidget;
@@ -51,6 +66,9 @@ public class TestCalculatorCurrency {
         this.valueCurrency=valueCurrency;
         this.codeCurrency= codeCurrency;
         this.codeConversionCurrency=codeConversionCurrency;
+        this.pathSourceCode=pathSourceCode;
+        this.pathDestinationCode=pathDestinationCode;
+        this.pathNote=pathNote;
         this.inputWidget=inputWidget;
         this.buttonWidget=buttonWidget;
         this.resultWidget=resultWidget;
@@ -59,24 +77,26 @@ public class TestCalculatorCurrency {
     @Test
     @Severity(SeverityLevel.NORMAL)
     @Title("Калькулятор иностранных валют")
-    @Description("Содержит 5 шагов")
+    @Description("Содержит 9 шагов")
     public void TestCalculator() throws InterruptedException {
         openCalculator();
         inputCurrency(valueCurrency);
         inputCodeCurrency(0, codeCurrency, pathListCodes, pathVisibleListCodes);
-        inputCodeCurrency(1, codeConversionCurrency, pathListCodes, pathVisibleListCodesToConvert);
-       // inputCodeConversionCurrency(CodeConversionCurrency);
+        inputCodeCurrencyToConvert(1, codeConversionCurrency, pathListCodes, pathVisibleListCodesToConvert);
+        selectSourceCode();
+        selectDestinationCode();
+        checkNote();
         getValueConversion();
         checkValueCurrency();
     }
 
-    @Step("Шаг 1:Открываем Калькулятор валют")
+    @Step("Открываем Калькулятор валют")
     public void openCalculator(){
         open(link);
         $(headerWidget).shouldHave(Condition.text(valueOfHeaderWidget));
     }
 
-    @Step("Шаг 2: Вводим значение валюты клиента")
+    @Step("Вводим значение количества валюты клиента")
     public void inputCurrency(String inputCurrency){
         WebElement input = $(By.xpath(inputWidget));
         input.click();
@@ -84,7 +104,7 @@ public class TestCalculatorCurrency {
         input.sendKeys(inputCurrency);
     }
 
-    @Step("Шаг 3: Выбираем код валюты клиента и код валюты для конвертирования")
+    @Step("Выбираем код валюты клиента")
     public void inputCodeCurrency(int numberListCurrency, String codeCurrency,String pathListCodes, String pathVisibleListCodes) {
         WebElement listCodes =  $$(By.xpath(pathListCodes)).get(numberListCurrency);
         listCodes.click();
@@ -93,14 +113,48 @@ public class TestCalculatorCurrency {
         $(codeIsSelected).click();
         //         }
     }
+    @Step("Выбираем код валюты для конвертирования")
+    public void inputCodeCurrencyToConvert(int numberListCurrency, String codeCurrency,String pathListCodes, String pathVisibleListCodes) {
+        WebElement listCodes =  $$(By.xpath(pathListCodes)).get(numberListCurrency);
+        listCodes.click();
+        WebElement codeIsSelected = $(By.xpath(pathVisibleListCodes));
+        //         if(codeIsSelected.getText().equals(codeCurrency)){
+        $(codeIsSelected).click();
+        //         }
+    }
 
-    @Step("Шаг 4: Получаем значение валюты клиента")
+    @Step("Выбираем источник валюты клиента")
+    public  void selectSourceCode (){
+        WebElement selectSource = $(By.xpath(pathSourceCode));
+        selectSource.click();
+    }
+
+    @Step("Выбираем способ получения валюты")
+    public  void selectDestinationCode (){
+        WebElement selectDestination = $(By.xpath(pathDestinationCode));
+        selectDestination.click();
+    }
+
+
+    @Step("Проверяем наличие уведомления об обмене наличной валюты")
+    public boolean checkNote(){
+        Boolean check;
+        WebElement notification = $(By.xpath(pathNote));
+        if(notification.isDisplayed()){
+            check=true;
+        } else {
+            check=false;
+        }
+        return check;
+    }
+
+    @Step("Получаем значение количества валюты клиента")
     public void getValueConversion(){
         WebElement button = $(By.xpath(buttonWidget));
         button.click();
     }
 
-    @Step("Шаг 5: Проверяем значение валюты с эталонным значением")
+    @Step("Проверяем значение количества валюты, которую получит клиент")
     public void checkValueCurrency() throws InterruptedException {
         WebElement result = $(By.xpath(resultWidget));
         result.getText().equals("5,60");
