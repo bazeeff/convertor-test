@@ -76,7 +76,7 @@ public class TestCalculatorCurrency {
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Title("Калькулятор иностранных валют")
+    @Title("Калькулятор иностранных валют-тест конвертации")
     @Description("Содержит 9 шагов")
     public void TestCalculator() throws InterruptedException {
         openCalculator();
@@ -109,18 +109,18 @@ public class TestCalculatorCurrency {
         WebElement listCodes =  $$(By.xpath(pathListCodes)).get(numberListCurrency);
         listCodes.click();
         WebElement codeIsSelected = $(By.xpath(pathVisibleListCodes));
-        //         if(codeIsSelected.getText().equals(codeCurrency)){
+              //   if(codeIsSelected.getText().equals(codeCurrency)){
         $(codeIsSelected).click();
-        //         }
+              //   }
     }
     @Step("Выбираем код валюты для конвертирования")
     public void inputCodeCurrencyToConvert(int numberListCurrency, String codeCurrency,String pathListCodes, String pathVisibleListCodes) {
         WebElement listCodes =  $$(By.xpath(pathListCodes)).get(numberListCurrency);
         listCodes.click();
         WebElement codeIsSelected = $(By.xpath(pathVisibleListCodes));
-        //         if(codeIsSelected.getText().equals(codeCurrency)){
+         //       if(codeIsSelected.getText().equals(codeCurrency)){
         $(codeIsSelected).click();
-        //         }
+           //      }
     }
 
     @Step("Выбираем источник валюты клиента")
