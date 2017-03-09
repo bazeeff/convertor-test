@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -79,7 +80,7 @@ public class TestCalculatorCurrency {
     @Title("Калькулятор иностранных валют-тест конвертации")
     @Description("Содержит 9 шагов")
     public void TestCalculator() throws InterruptedException {
-        openCalculator();
+        openCalculator(link);
         inputCurrency(valueCurrency);
         inputCodeCurrency(0, codeCurrency, pathListCodes, pathVisibleListCodes);
         inputCodeCurrencyToConvert(1, codeConversionCurrency, pathListCodes, pathVisibleListCodesToConvert);
@@ -91,9 +92,10 @@ public class TestCalculatorCurrency {
     }
 
     @Step("Открываем Калькулятор валют")
-    public void openCalculator(){
+    public void openCalculator(String link){
         open(link);
-        $(headerWidget).shouldHave(Condition.text(valueOfHeaderWidget));
+        SelenideElement header = $(headerWidget);
+        header.shouldHave(Condition.text(valueOfHeaderWidget));
     }
 
     @Step("Вводим значение количества валюты клиента")

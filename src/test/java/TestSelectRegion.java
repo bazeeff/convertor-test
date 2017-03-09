@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -15,8 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 /**
  * Created by artem on 09.03.17.
@@ -25,17 +25,18 @@ import static com.codeborne.selenide.Selenide.open;
 public class TestSelectRegion {
     private String link;
     private String headerWidget;
-    private String subject;
-    private String pathSubject;
+    private String valueOfHeaderWidget;
+/*    private String subject;
+    private String pathSubject;*/
 
-    public TestSelectRegion(String link,String headerWidget, String subject,String pathSubject ){
+    public TestSelectRegion(String link,String headerWidget, String valueOfHeaderWidget/*, String subject,String pathSubject */){
         this.link=link;
         this.headerWidget=headerWidget;
-        this.subject=subject;
-        this.pathSubject=pathSubject;
+        this.valueOfHeaderWidget=valueOfHeaderWidget;
+/*        this.subject=subject;
+        this.pathSubject=pathSubject;*/
 
     }
-
 
     @Test
     @Severity(SeverityLevel.NORMAL)
@@ -52,31 +53,38 @@ public class TestSelectRegion {
 
     @Step("Открываем Калькулятор валют")
     public void openCalculator(){
+        SelenideElement header = $(headerWidget);
         open(link);
+        header.shouldHave(Condition.text(valueOfHeaderWidget));
 
     }
     @Step("Открываем список регионов РФ")
     public void openListOfSubjects(){
-
+        $("span.region-list__name").click();
+        $("div.kit-modal-content.kit-modal-content_view_window.kit-modal-content_orientation_portrait").isDisplayed();
     }
     @Step("В поле поиска вводим название региона РФ")
     public void sendInput(){
+    $("input.kit-input__control").click();
+        $("input.kit-input__control").sendKeys("Ростов");
 
     }
 
     @Step("Проверяем всплывает ли подсказка")
     public void checkNote(){
-
+        $("span.region-search-box__option").shouldHave(Condition.text("Ростовская область"));
     }
 
     @Step("Выбор нужного региона")
     public void selectSubject(){
-
+        $("span.region-search-box__option").click();
     }
 
     @Step("Проверяем появление региона на странице")
     public void checkSubjectOnPage(){
-
+        sleep(5000);
+        $("span.region-list__name").isDisplayed();
+        $("span.region-list__name").shouldHave(Condition.text("Ростовская область"));
     }
 
     @Parameterized.Parameters
