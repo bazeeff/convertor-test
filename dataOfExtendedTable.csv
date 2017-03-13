@@ -1,0 +1,1 @@
+h1.header_widget;Калькулятор иностранных валют;//div[@class='select'][1];//div[@class='visible']/span[3];EUR;//div/div[@class='widget-rates']/ul[@class='rates-tabs rates-right']/li[2];hasDatepicker;01.01.2013;button.button;//div[@class='rates-details-table'];//table[@class='details-table']/tbody/tr/td[4]/span[@class='rates-down'];0,40;Евро;39,40;41,20;1;0,50
