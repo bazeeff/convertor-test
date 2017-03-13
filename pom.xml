@@ -23,11 +23,7 @@
             <artifactId>allure-junit-adaptor</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>1.4.9</version>
-        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
