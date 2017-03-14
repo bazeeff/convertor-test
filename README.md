@@ -1,7 +1,8 @@
-##convertor-test
-###Testing of currency conversion
-####How to run?
-#####Maven version must be 3.1.1 or above
+## Testing of currency conversion
+
+### How to run?
+
+#### Maven version must be 3.1.1 or above
 ```
 1. git clone https://github.com/bazeeff/convertor-test.git
 ```
@@ -20,4 +21,4 @@
 ```
 6. open in browser URL: http://localhost:8080/
 ```
-#####P.S. The TCP port 8080 must be open in order to use.
+#### P.S. The TCP port 8080 must be open in order to use.
