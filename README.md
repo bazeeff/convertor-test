@@ -21,4 +21,4 @@
 ```
 6. open in browser URL: http://localhost:8080/
 ```
-#### P.S. The TCP port 8080 must be open in order to use.
+#### P.S. The TCP port 8080 must be opened in order to use.
